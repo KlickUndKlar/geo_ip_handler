@@ -1,0 +1,43 @@
+{
+    "modules": [],
+    "properties": {
+        "backendModules": [],
+        "description": "",
+        "emConf": {
+            "category": "plugin",
+            "custom_category": "",
+            "dependsOn": "typo3 => 9.5.0-9.5.99\n",
+            "disableLocalization": false,
+            "disableVersioning": false,
+            "skipGenerateDocumentationTemplate": false,
+            "sourceLanguage": "en",
+            "state": "alpha",
+            "targetVersion": "8.7.0-8.7.99",
+            "version": "1.0.0"
+        },
+        "extensionKey": "geo_ip_handler",
+        "name": "Geo IP Handler",
+        "originalExtensionKey": "",
+        "originalVendorName": "",
+        "persons": [],
+        "plugins": [
+            {
+                "actions": {
+                    "controllerActionCombinations": "",
+                    "noncacheableActions": "",
+                    "switchableActions": ""
+                },
+                "description": "",
+                "key": "geoiphandler",
+                "name": "geoiphandler"
+            }
+        ],
+        "vendorName": "KK"
+    },
+    "wires": [],
+    "log": {
+        "last_modified": "2019-05-20 08:12",
+        "extension_builder_version": "8.10.4",
+        "be_user": " (1)"
+    }
+}

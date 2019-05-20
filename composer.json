@@ -1,0 +1,23 @@
+{
+    "name": "kk/geo-ip-handler",
+    "type": "typo3-cms-extension",
+    "description": "",
+    "authors": [],
+    "require": {
+        "typo3/cms-core": "^8.7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "KK\\GeoIpHandler\\": "Classes"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KK\\GeoIpHandler\\Tests\\": "Tests"
+        }
+    },
+    "replace": {
+        "geo_ip_handler": "self.version",
+        "typo3-ter/geo-ip-handler": "self.version"
+    }
+}
