@@ -15,7 +15,6 @@ class RedirectBeforePageLoadHook{
      */
     public function execute(&$params, &$pagerenderer)
     {
-        echo "hook";exit;
         if (TYPO3_MODE !== 'FE') {
              return;
         }
