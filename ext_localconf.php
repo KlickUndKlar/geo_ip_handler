@@ -9,11 +9,11 @@ call_user_func(
             'KK.GeoIpHandler',
             'Geoiphandler',
             [
-                'GeoLocator' => 'show',
+                
             ],
             // non-cacheable actions
             [
-                'GeoLocator' => 'show',
+               
             ]
         );
 
@@ -46,3 +46,6 @@ call_user_func(
 		
     }
 );
+
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][\KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class]
+        = \KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class . '->execute';

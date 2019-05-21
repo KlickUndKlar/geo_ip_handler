@@ -22,6 +22,18 @@ plugin.tx_geoiphandler_geoiphandler {
     mvc {
         #callDefaultActionIfActionCantBeResolved = 1
     }
+    settings {
+        redirects {
+               fr {
+                 target = https://fr.mydomain.com
+                 trigger = in
+               }
+               jp{
+                 target = https://jp.mydomain.com
+                 trigger = in
+               }
+           }
+    }
 }
 
 # these classes are only used in auto-generated templates
