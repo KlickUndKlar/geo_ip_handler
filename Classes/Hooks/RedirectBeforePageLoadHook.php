@@ -33,9 +33,6 @@ class RedirectBeforePageLoadHook{
         $reader = new Reader($extPath.'Resources/Public/GeoLite/GeoLite2-City.mmdb');
         $currentIp = GeneralUtility::getIndpEnv('REMOTE_ADDR');
         $record = $reader->city($currentIp);
-        $record = $reader->city('128.101.101.101');//US
-        //$record = $reader->city('13.106.118.255');//JP
-        //$record = $reader->city('1.39.255.255');//IN
         $isoCode = $record->country->isoCode ;
  
         //if iso code of clients's ip exists in redirect rule
