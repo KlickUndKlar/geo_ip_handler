@@ -41,7 +41,7 @@ call_user_func(
 			$iconRegistry->registerIcon(
 				'geo_ip_handler-plugin-geoiphandler',
 				\TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-				['source' => 'EXT:geo_ip_handler/Resources/Public/Icons/user_plugin_geoiphandler.svg']
+				['source' => 'EXT:ext_icon.png']
 			);
 		
     }

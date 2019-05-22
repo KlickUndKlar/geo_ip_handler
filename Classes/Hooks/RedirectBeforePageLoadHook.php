@@ -6,6 +6,7 @@ namespace KK\GeoIpHandler\Hooks;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Extbase\Mvc\Web;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use GeoIp2\Database\Reader;
 
 class RedirectBeforePageLoadHook{
@@ -20,51 +21,60 @@ class RedirectBeforePageLoadHook{
              return;
         }
         $requestUrl = $_SERVER['HTTP_HOST'];
-        $objectManager = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\Extbase\\Object\\ObjectManager');
+
+        $objectManager = GeneralUtility::makeInstance('TYPO3\\CMS\Extbase\\Object\\ObjectManager');
         $configurationManager = $objectManager->get('TYPO3\\CMS\\Extbase\\Configuration\\ConfigurationManager');
-        $request = $objectManager->get('TYPO3\\CMS\\Extbase\\Mvc\\Web\\Request');
         $extbaseFrameworkConfiguration = $configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_FULL_TYPOSCRIPT);
+
+        //get typoscript configuration for redirect rules
         $redirectRule = $extbaseFrameworkConfiguration['plugin.']['tx_geoiphandler_geoiphandler.']['settings.']['redirects.'];
+
         $extPath = ExtensionManagementUtility::extPath('geo_ip_handler');
         $reader = new Reader($extPath.'Resources/Public/GeoLite/GeoLite2-City.mmdb');
-        $currentIp = $this->getUserIP();
+        $currentIp = GeneralUtility::getIndpEnv('REMOTE_ADDR');
+        $record = $reader->city($currentIp);
         $record = $reader->city('128.101.101.101');//US
         //$record = $reader->city('13.106.118.255');//JP
         //$record = $reader->city('1.39.255.255');//IN
         $isoCode = $record->country->isoCode ;
-
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($currentIp);exit;
+ 
+        //if iso code of clients's ip exists in redirect rule
         if(array_key_exists(strtolower($isoCode).'.', $redirectRule)){
             $target = $redirectRule[strtolower($isoCode).'.']['target'];
             $trigger = $redirectRule[strtolower($isoCode).'.']['trigger'];
-            if( $requestUrl != $target ){
-                header("Location:".$target);
+            if( $trigger === 'in' ){
+                if( $requestUrl != $target ){
+                    HttpUtility::redirect($target);
+                }
             }
-            
+            elseif($trigger === 'out'){
+                $this->redirectToTarget($redirectRule, strtolower($isoCode), $requestUrl);
+            }
         }
-
+        else{
+            $this->redirectToTarget($redirectRule, strtolower($isoCode), $requestUrl);
+        }
         return;
-        
     }
 
-    public function getUserIP()
-    {
-        $ipaddress = '';
-        if (getenv('HTTP_CLIENT_IP'))
-            $ipaddress = getenv('HTTP_CLIENT_IP');
-        else if(getenv('HTTP_X_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
-        else if(getenv('HTTP_X_FORWARDED'))
-            $ipaddress = getenv('HTTP_X_FORWARDED');
-        else if(getenv('HTTP_FORWARDED_FOR'))
-            $ipaddress = getenv('HTTP_FORWARDED_FOR');
-        else if(getenv('HTTP_FORWARDED'))
-           $ipaddress = getenv('HTTP_FORWARDED');
-        else if(getenv('REMOTE_ADDR'))
-            $ipaddress = getenv('REMOTE_ADDR');
-        else
-            $ipaddress = 'UNKNOWN';
-        return $ipaddress;
-    }
 
+    /**
+    * function redirectToTarget
+    * This function redirects to the target if iso of client's ip not exists in rules or value for trigger of the rule is 'out'
+    *
+    **/
+    public function redirectToTarget($rules, string $iso, string $requestUrl){
+        foreach ($rules as $key => $rule) {
+            $target = $rule['target'];
+            $trigger = $rule['trigger'];
+            if($isoCode != rtrim($key,'.')){
+                if( $trigger == 'out' ){
+                    if( $requestUrl != $target ){
+                        HttpUtility::redirect($target);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 }
