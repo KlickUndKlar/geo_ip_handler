@@ -27,11 +27,13 @@ class RedirectBeforePageLoadHook{
         $redirectRule = $extbaseFrameworkConfiguration['plugin.']['tx_geoiphandler_geoiphandler.']['settings.']['redirects.'];
         $extPath = ExtensionManagementUtility::extPath('geo_ip_handler');
         $reader = new Reader($extPath.'Resources/Public/GeoLite/GeoLite2-City.mmdb');
-        $currentIp = $_SERVER['REMOTE_ADDR'];
+        $currentIp = $this->getUserIP();
         $record = $reader->city('128.101.101.101');//US
         //$record = $reader->city('13.106.118.255');//JP
         //$record = $reader->city('1.39.255.255');//IN
         $isoCode = $record->country->isoCode ;
+
+        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($currentIp);exit;
         if(array_key_exists(strtolower($isoCode).'.', $redirectRule)){
             $target = $redirectRule[strtolower($isoCode).'.']['target'];
             $trigger = $redirectRule[strtolower($isoCode).'.']['trigger'];
@@ -43,6 +45,26 @@ class RedirectBeforePageLoadHook{
 
         return;
         
+    }
+
+    public function getUserIP()
+    {
+        $ipaddress = '';
+        if (getenv('HTTP_CLIENT_IP'))
+            $ipaddress = getenv('HTTP_CLIENT_IP');
+        else if(getenv('HTTP_X_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+        else if(getenv('HTTP_X_FORWARDED'))
+            $ipaddress = getenv('HTTP_X_FORWARDED');
+        else if(getenv('HTTP_FORWARDED_FOR'))
+            $ipaddress = getenv('HTTP_FORWARDED_FOR');
+        else if(getenv('HTTP_FORWARDED'))
+           $ipaddress = getenv('HTTP_FORWARDED');
+        else if(getenv('REMOTE_ADDR'))
+            $ipaddress = getenv('REMOTE_ADDR');
+        else
+            $ipaddress = 'UNKNOWN';
+        return $ipaddress;
     }
 
 }
