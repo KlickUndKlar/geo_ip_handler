@@ -28,4 +28,11 @@ $EM_CONF[$_EXTKEY] = [
         'conflicts' => [],
         'suggests' => [],
     ],
+    'autoload' =>[
+	'psr-4' =>[
+	  "GeoIp2\\"=> "Libraries/geoip2/src",
+	  "MaxMind\\"=> "Libraries/geoip2/maxmind-db",
+	  "KK\\GeoIpHandler\\"=> "Classes"
+	]
+    ]
 ];
