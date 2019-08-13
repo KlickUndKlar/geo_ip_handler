@@ -47,5 +47,8 @@ call_user_func(
     }
 );
 
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][\KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class]
-        = \KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class . '->execute';
+//$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][\KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class]
+//        = \KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class . '->execute';
+
+// Hook for post-processing of page content cached/non-cached:
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-all'][\KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class] = \KK\GeoIpHandler\Hooks\RedirectBeforePageLoadHook::class . '->execute';
