@@ -9,6 +9,24 @@
 			<trans-unit id="tx_geo_ip_handler_geoiphandler.description">
 				<source></source>
 			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect">
+				<source>Geo IP Handler Redirects</source>
+			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect.isocode">
+				<source>isocode</source>
+			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect.target">
+				<source>target</source>
+			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect.trigger">
+				<source>trigger</source>
+			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect.trigger.in">
+				<source>in</source>
+			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect.trigger.out">
+				<source>out</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
