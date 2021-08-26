@@ -29,7 +29,7 @@ class RedirectionMiddleware implements MiddlewareInterface
     {
         
         try{
-            $requestUrl = $_SERVER['HTTP_HOST'];
+            $requestUrl = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
 
             
             $extPath = ExtensionManagementUtility::extPath('geo_ip_handler');
