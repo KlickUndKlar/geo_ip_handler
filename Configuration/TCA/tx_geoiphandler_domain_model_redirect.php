@@ -27,7 +27,7 @@ return [
     'types' => [
         '1' => [
             'showitem' => '
-                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, --palette--;;source, --palette--;;targetdetails,
+                --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:general, --palette--;;source, skip_urls, --palette--;;targetdetails,
                 --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, --palette--;;visibility'
         ],
     ],
@@ -107,6 +107,15 @@ return [
                 'default' => 'in',
                 'size' => 1,
             ]
+        ],
+        'skip_urls' => [
+            'label' => 'LLL:EXT:geo_ip_handler/Resources/Private/Language/locallang_db.xlf:tx_geoiphandler_domain_model_redirect.skip_urls',
+            'config' => [
+                'type' => 'input',
+                'size' => 30,
+                'eval' => 'trim',
+                'max' => 2048
+            ],
         ],
     ],
 ];

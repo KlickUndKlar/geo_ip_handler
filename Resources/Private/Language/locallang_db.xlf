@@ -27,6 +27,9 @@
 			<trans-unit id="tx_geoiphandler_domain_model_redirect.trigger.out">
 				<source>out</source>
 			</trans-unit>
+			<trans-unit id="tx_geoiphandler_domain_model_redirect.skip_urls">
+				<source>Skip Urls(comma separated)</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

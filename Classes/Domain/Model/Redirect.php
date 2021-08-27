@@ -29,6 +29,13 @@ class Redirect extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     protected $trigger = 'in';
 
     /**
+     * skipUrls
+     * 
+     * @var string
+     */
+    protected $skipUrls = '';
+
+    /**
      * Returns the isocode
      * 
      * @return string $isocode
@@ -89,5 +96,26 @@ class Redirect extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     public function setTrigger($trigger)
     {
         $this->trigger = $trigger;
+    }
+
+    /**
+     * Returns the skipUrls
+     * 
+     * @return int $skipUrls
+     */
+    public function getSkipUrls()
+    {
+        return $this->skipUrls;
+    }
+
+    /**
+     * Sets the skipUrls
+     * 
+     * @param string $skipUrls
+     * @return void
+     */
+    public function setSkipUrls($skipUrls)
+    {
+        $this->skipUrls = $skipUrls;
     }
 }

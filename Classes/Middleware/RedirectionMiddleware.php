@@ -42,7 +42,7 @@ class RedirectionMiddleware implements MiddlewareInterface
             // Get redirect matching with current isocode
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
                 ->getQueryBuilderForTable('tx_geoiphandler_domain_model_redirect')
-                ->select('isocode','target','trigger')
+                ->select('isocode','target','trigger','skip_urls')
                 ->from('tx_geoiphandler_domain_model_redirect');
             $queryBuilder->where(
                 $queryBuilder->expr()->eq('isocode', $queryBuilder->createNamedParameter($isoCode))
@@ -55,11 +55,15 @@ class RedirectionMiddleware implements MiddlewareInterface
                 //if iso code of clients's ip exists in redirect rule               
                 $target = $redirectRule['target'];
                 $trigger = $redirectRule['trigger'];
+                $referrerArray = explode(',',$redirectRule['skip_urls']);
                 if( $trigger === 'in' ){
 
-                    if( $requestUrl != $target ){
-                        HttpUtility::redirect($target);
+                    if(is_array($referrerArray) && !in_array($_SERVER['HTTP_HOST'], $referrerArray)){ 
+                        if( $requestUrl != $target ){
+                            HttpUtility::redirect($target);
+                        }
                     }
+
                 }
                 elseif($trigger === 'out'){
                     $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
@@ -67,7 +71,9 @@ class RedirectionMiddleware implements MiddlewareInterface
                         ->select('isocode','target','trigger')
                         ->from('tx_geoiphandler_domain_model_redirect');
                     $redirectRule = $queryBuilder->execute()->fetchAll();
-                    $this->redirectToTarget($redirectRule, strtolower($isoCode), $requestUrl);
+                    if(is_array($referrerArray) && !in_array($_SERVER['HTTP_HOST'], $referrerArray)){ 
+                        $this->redirectToTarget($redirectRule, strtolower($isoCode), $requestUrl);
+                    }
                     
                 }
             }
